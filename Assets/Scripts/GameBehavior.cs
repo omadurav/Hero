@@ -48,7 +48,7 @@ public class GameBehavior : MonoBehaviour
             }
             else
             {
-                progressText.text = "Item found, only " + (maxItems - _itemsCollected) + "more to go!";
+                progressText.text = "Item found, only " + (maxItems - _itemsCollected) + " more to go!";
             }
         }
     }

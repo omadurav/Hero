@@ -12,9 +12,9 @@ public class ItemBehavior : MonoBehaviour
         gameManager = GameObject.Find("Game Manager").GetComponent<GameBehavior>();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.name == "Player")
+        if (other.gameObject.name == "Player")
         {
             Destroy(this.transform.gameObject);
             gameManager.items++;
