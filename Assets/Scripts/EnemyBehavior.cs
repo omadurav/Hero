@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +12,25 @@ public class EnemyBehavior : MonoBehaviour
 
     private int _locationIndex = 0;
     private NavMeshAgent _agent;
+
+    private int _lives = 3;
+    public int enemyLives
+    {
+        get
+        {
+            return _lives;
+        }
+        private set
+        {
+            _lives = value;
+
+            if(_lives <= 0)
+            {
+                Destroy(this.gameObject);
+                Debug.Log("Enemy down.");
+            }
+        }
+    }
 
     private void Start()
     {
@@ -49,8 +69,6 @@ public class EnemyBehavior : MonoBehaviour
 
         //Actualizamos el valor de _locationIndex
         _locationIndex = (_locationIndex + 1) % locations.Count;
-
-        Debug.Log(_locationIndex);
     }
 
 
@@ -60,8 +78,6 @@ public class EnemyBehavior : MonoBehaviour
         if (other.name == "Player")
         {
             _agent.destination = player.position;
-
-            Debug.Log("Player detected - attack!");
         }
     }
 
@@ -70,6 +86,15 @@ public class EnemyBehavior : MonoBehaviour
         if (other.name == "Player")
         {
             Debug.Log("Player out of range, resume patrol");
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.name == "Bullet(Clone)")
+        {
+            enemyLives--;
+            Debug.Log("Critical hit!");
         }
     }
 }
