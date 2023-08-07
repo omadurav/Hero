@@ -7,6 +7,12 @@ using UnityEngine.SceneManagement;
 
 public class GameBehavior : MonoBehaviour
 {
+    public void UpdateScene(string updateText)
+    {
+        progressText.text = updateText;
+        Time.timeScale = 0;
+    }
+
     public int maxItems = 4;
 
     public TMP_Text healthText;
@@ -33,12 +39,9 @@ public class GameBehavior : MonoBehaviour
 
             if (_itemsCollected >= maxItems)
             {
-                progressText.text = "You've found all the items!";
-
                 winButton.gameObject.SetActive(true);
 
-                //Pusar el juego
-                Time.timeScale = 0f;
+                UpdateScene("You've found all the items!");
             }
             else
             {
@@ -61,9 +64,9 @@ public class GameBehavior : MonoBehaviour
 
             if (_playerHp <= 0)
             {
-                progressText.text = "You want another life with that?";
                 lostButton.gameObject.SetActive(true);
-                Time.timeScale = 0;
+
+                UpdateScene("You want another life with that?");
             }
             else
             {
