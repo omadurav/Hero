@@ -14,17 +14,10 @@ public class GameBehavior : MonoBehaviour
     public TMP_Text progressText;
 
     public Button winButton;
-
+    public Button lostButton;
     private int _itemsCollected = 0;
-    private int _playerHp = 10;
+    private int _playerHp = 1;
 
-
-
-    private void Start()
-    {
-        itemText.text += _itemsCollected;
-        healthText.text += _playerHp;
-    }
 
     public int items
     {
@@ -38,9 +31,10 @@ public class GameBehavior : MonoBehaviour
 
             itemText.text = "Items Collected: " + items;
 
-            if(_itemsCollected >= maxItems)
+            if (_itemsCollected >= maxItems)
             {
                 progressText.text = "You've found all the items!";
+
                 winButton.gameObject.SetActive(true);
 
                 //Pusar el juego
@@ -62,8 +56,27 @@ public class GameBehavior : MonoBehaviour
         set
         {
             _playerHp = value;
+
             healthText.text = "Player Health: " + HP;
+
+            if (_playerHp <= 0)
+            {
+                progressText.text = "You want another life with that?";
+                lostButton.gameObject.SetActive(true);
+                Time.timeScale = 0;
+            }
+            else
+            {
+                progressText.text = "Ouch... that's go hurt.";
+            }
         }
+    }
+
+    private void Start()
+    {
+        itemText.text += _itemsCollected;
+
+        healthText.text += _playerHp;
     }
 
     public void RestartScene()
