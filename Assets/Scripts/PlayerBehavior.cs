@@ -23,11 +23,14 @@ public class PlayerBehavior : MonoBehaviour
     public float bulletSpeed;
     private bool _isShooting;
 
+    private GameBehavior _gameManager;
+
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _col = GetComponent<CapsuleCollider>();
+        _gameManager = GameObject.Find("Game Manager").GetComponent<GameBehavior>();
     }
 
     void Update()
@@ -40,8 +43,6 @@ public class PlayerBehavior : MonoBehaviour
 
         //this.transform.Translate(Vector3.forward * _vInput  * Time.deltaTime);
         //this.transform.Rotate(Vector3.up * _hInput  * Time.deltaTime);
-
-
     }
 
     private void FixedUpdate()
@@ -82,5 +83,13 @@ public class PlayerBehavior : MonoBehaviour
         bool grounded = Physics.CheckCapsule(_col.bounds.center, capsuleBottom, distanceToGround, groundLayer, QueryTriggerInteraction.Ignore);
 
         return grounded;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "Enemy")
+        {
+            _gameManager.HP--;
+        }
     }
 }
